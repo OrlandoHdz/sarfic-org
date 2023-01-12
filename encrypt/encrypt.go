@@ -131,3 +131,7 @@ func GeneraJWT(nombreUsuario string) (string, error) {
 func Saludar() string {
 	return "Te saludo desde el mod"
 }
+
+func Saludar2() string {
+	return "Te saludo 2 desde el mod"
+}
