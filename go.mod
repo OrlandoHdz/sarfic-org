@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/gin-gonic/gin v1.7.4
 	github.com/golang-jwt/jwt/v4 v4.4.2
+	github.com/joho/godotenv v1.4.0
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.20.12
 )

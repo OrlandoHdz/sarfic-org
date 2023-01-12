@@ -3,17 +3,21 @@ package main
 import (
 	"fmt"
 
-	"github.com/OrlandoHdz/sarfic-org/encrypt"
+	"github.com/OrlandoHdz/sarfic-org/models"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	se, err := encrypt.Sencrypt("gsgsgsgs", "fsyuywjhd")
-
-	if err != nil {
-		fmt.Println("Ocurrio un error:")
-		fmt.Println(err)
-		return
+	// carga las variables de ambient del archivo .env
+	e := godotenv.Load()
+	if e != nil {
+		fmt.Print(e)
 	}
-	fmt.Println(se)
+
+	// Conecta a la base de datos
+	models.ConectarDb()
+
+	// Migrar tablas
+	models.MigrarUsuarios()
 
 }

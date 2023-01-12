@@ -33,10 +33,7 @@ func ConectarDb() {
 
 	db, err := gorm.Open(postgres.Open(dsn),
 		&gorm.Config{
-			NamingStrategy: schema.NamingStrategy{
-				TablePrefix:   "org",
-				SingularTable: false,
-			},
+			NamingStrategy: schema.NamingStrategy{TablePrefix: "org."},
 		})
 
 	if err != nil {
