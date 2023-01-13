@@ -338,8 +338,25 @@ func TienePrivilejios(usr Usuario) bool {
 }
 
 func validaToken(c *gin.Context) (*Response, Usuario) {
-	token := c.Request.Header["Authorization"][0]
-	usuario, err := ValidaToken(token)
+
+	aut := c.Request.Header["Authorization"]
+
+	var token string
+	var usuario Usuario
+	var err error
+
+	if len(aut) > 0 {
+		token = aut[0]
+	} else {
+		return &Response{
+			Success:    false,
+			Error:      err,
+			Message:    "Ocurrio un error usted no esta incluyendo el token en su peticiónn",
+			HttpStatus: http.StatusUnauthorized,
+		}, usuario
+	}
+
+	usuario, err = ValidaToken(token)
 
 	if err != nil {
 		return &Response{
@@ -356,6 +373,7 @@ func validaToken(c *gin.Context) (*Response, Usuario) {
 		Message:    "Obteniendo token correctamente",
 		HttpStatus: http.StatusOK,
 	}, usuario
+
 }
 
 func MigrarModelos() {

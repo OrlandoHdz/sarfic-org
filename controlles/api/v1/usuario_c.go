@@ -3,6 +3,7 @@
 package v1
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -26,8 +27,16 @@ type JsonRequestUsuario struct {
 
 // CrearUsuario ...
 func CrearUsuario(c *gin.Context) {
+
 	// Valida el Token
-	token := c.Request.Header["Authorization"][0]
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
 	usuario, err := models.ValidaToken(token)
 
 	if err != nil {
@@ -96,8 +105,16 @@ func CrearUsuario(c *gin.Context) {
 
 // ActualizaUsuario ...
 func ActualizaUsuario(c *gin.Context) {
+
 	// Valida el Token
-	token := c.Request.Header["Authorization"][0]
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
 	usuario, err := models.ValidaToken(token)
 
 	if err != nil {
@@ -175,8 +192,16 @@ func ActualizaUsuario(c *gin.Context) {
 
 // BuscarUsuario ...
 func BuscarUsuario(c *gin.Context) {
+
 	// Valida el Token
-	token := c.Request.Header["Authorization"][0]
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
 	usuario, err := models.ValidaToken(token)
 
 	if err != nil {
@@ -211,14 +236,12 @@ func BuscarUsuario(c *gin.Context) {
 
 // TodosUsuarios ...
 func TodosUsuarios(c *gin.Context) {
-	// Valida el Token
-	var token string
-	aut := c.Request.Header["Authorization"]
 
-	if len(aut) > 0 {
-		token = aut[0]
-	} else {
-		msg := Message(false, "Ocurrio un error usted no esta incluyendo el token en su petición")
+	// Valida el Token
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
 		Respond(c.Writer, http.StatusUnauthorized, msg)
 		return
 	}
@@ -252,8 +275,16 @@ func TodosUsuarios(c *gin.Context) {
 
 // EliminarUsuario ...
 func EliminarUsuario(c *gin.Context) {
+
 	// Valida el Token
-	token := c.Request.Header["Authorization"][0]
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
 	usuario, err := models.ValidaToken(token)
 
 	if err != nil {
@@ -287,5 +318,19 @@ func EliminarUsuario(c *gin.Context) {
 			Respond(c.Writer, http.StatusBadRequest, msg)
 		}
 	}
+
+}
+
+func validaAuthorization(aut []string) (string, error) {
+
+	var token string
+
+	if len(aut) > 0 {
+		token = aut[0]
+	} else {
+		return "", errors.New("Ocurrio un error usted no esta incluyendo el token en su petición")
+	}
+
+	return token, nil
 
 }
