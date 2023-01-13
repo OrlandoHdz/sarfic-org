@@ -21,7 +21,7 @@ func CrearUsuarioAdmin() {
 
 	u := models.Usuario{
 		Usuario:         "admin",
-		Email:           "admin@sarfic.co.mx",
+		Email:           "admin@sarfic.com.mx",
 		Nombre:          "Usuario Administrador",
 		Password:        password,
 		TipoAutt:        1,

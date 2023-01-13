@@ -91,7 +91,7 @@ func ActualizaUsuario(usr Usuario) error {
 func ObtenerUsuario(email string) (Usuario, error) {
 	var usr Usuario
 	//r := Db.Where(Usuario{Email: strings.ToLower(email)}).First(&usr)
-	r := Db.Joins("Empresa").First(&usr, Usuario{Email: strings.ToLower(email)})
+	r := Db.Joins("Entidad").First(&usr, Usuario{Email: strings.ToLower(email)})
 	if r.Error != nil {
 		fmt.Println(r.Error)
 		return usr, errors.New("no encontro usuario")
