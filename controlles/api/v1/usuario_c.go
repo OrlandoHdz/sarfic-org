@@ -212,7 +212,17 @@ func BuscarUsuario(c *gin.Context) {
 // TodosUsuarios ...
 func TodosUsuarios(c *gin.Context) {
 	// Valida el Token
-	token := c.Request.Header["Authorization"][0]
+	var token string
+	aut := c.Request.Header["Authorization"]
+
+	if len(aut) > 0 {
+		token = aut[0]
+	} else {
+		msg := Message(false, "Ocurrio un error usted no esta incluyendo el token en su petición")
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
 	usuario, err := models.ValidaToken(token)
 
 	if err != nil {
