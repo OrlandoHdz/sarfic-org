@@ -22,7 +22,7 @@ type JsonRequestUsuario struct {
 	Password    string `json:"password"`
 	TipoAutt    string `json:"tipo_autt"`
 	TipoUsuario string `json:"tipo_usuario"`
-	EntidadID   string `json:"empresa_id"`
+	EntidadID   string `json:"entidad_id"`
 }
 
 // CrearUsuario ...
