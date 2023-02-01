@@ -383,4 +383,5 @@ func MigrarModelos() {
 	MigrarEntidad()
 	MigrarOperadora()
 	MigrarPermisionaria()
+	MigrarDeclaracion()
 }
