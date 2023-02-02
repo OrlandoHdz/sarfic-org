@@ -190,8 +190,10 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 	var r *gorm.DB
 
 	if esMail {
+		fmt.Println("Acceso con Mail:", email)
 		r = Db.Where(Usuario{Email: email}).First(&usr)
 	} else {
+		fmt.Println("Acceso con RFC:", email)
 		r = Db.Where(Usuario{Usuario: email}).First(&usr)
 	}
 
@@ -276,3 +278,10 @@ func AccesosUsuario(tipo int) []string {
 	return accesos
 
 }
+
+/*
+{
+    "email": "admin@sarfic.com.mx",
+    "password": "S4rf1cP"
+}
+*/
