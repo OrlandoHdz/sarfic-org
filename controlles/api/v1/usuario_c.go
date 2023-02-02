@@ -365,6 +365,7 @@ func ValidaUsuarioPassword(c *gin.Context) {
 
 		msg := Message(true, "Correo valido")
 		msg["payload"] = map[string]interface{}{
+			"usuario":          usr.Usuario,
 			"email":            usr.Email,
 			"name":             usr.Nombre,
 			"picture":          "",
