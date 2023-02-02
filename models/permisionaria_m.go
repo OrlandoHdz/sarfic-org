@@ -6,7 +6,7 @@ import "gorm.io/gorm"
 type Permisionaria struct {
 	gorm.Model
 	Numero             string  `json:"numero" gorm:"type:character varying(50)"`
-	Rfc                string  `json:"rfc" gorm:"type:character varying(50)"`
+	Rfc                string  `json:"rfc" gorm:"type:character varying(50);unique"`
 	Descripcion        string  `json:"descripcion" gorm:"type:character varying(250)"`
 	UsuarioActualizoID uint    `json:"usuario_actualizo_id"`
 	UsuarioActualizo   Usuario `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`

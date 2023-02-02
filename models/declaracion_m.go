@@ -15,9 +15,9 @@ const (
 
 // Declaracion Contiene la declaración definitiva del contribuyente
 type Declaracion struct {
-	PermisionariaID         uint          `json:"permisionaria_id"`
+	PermisionariaID         uint          `json:"permisionaria_id" gorm:"index:idx_declaracion,unique"`
 	Permisionaria           Permisionaria `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	EntidadID               uint          `json:"entidad_id"`
+	EntidadID               uint          `json:"entidad_id" gorm:"index:idx_declaracion,unique"`
 	Entidad                 Entidad       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	DepositosPrecargado     float32       `json:"depositos_precargado" gorm:"type:numeric(15,4);"`
 	RetirosPrecargado       float32       `json:"retiros_precargado" gorm:"type:numeric(15,4);"`
@@ -31,10 +31,10 @@ type Declaracion struct {
 	Impuesto789             float32       `json:"impuesto789" gorm:"type:numeric(15,4);"`
 	Impuesto790             float32       `json:"impuesto790" gorm:"type:numeric(15,4);"`
 	TotalApagar             float32       `json:"total_apagar" gorm:"type:numeric(15,4);"`
-	Año                     uint          `json:"año"`
-	Mes                     uint          `json:"mes"`
-	Tipo                    uint          `json:"tipo"`
-	Estatus                 uint          `json:"estatus"`
+	Año                     uint          `json:"año" gorm:"index:idx_declaracion,unique"`
+	Mes                     uint          `json:"mes" gorm:"index:idx_declaracion,unique"`
+	Tipo                    uint          `json:"tipo" gorm:"index:idx_declaracion,unique"`
+	Estatus                 uint          `json:"estatus" gorm:"index:idx_declaracion,unique"`
 	EstatusPago             uint          `json:"estatus_pago"`
 	ComentarioAdministrador string        `json:"comentario_administrador" gorm:"type:character varying(250);"`
 	ComentarioContribuyente string        `json:"comentario_contribuyente" gorm:"type:character varying(250);"`

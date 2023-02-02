@@ -31,7 +31,7 @@ var (
 	DescTipoAutt = [2]string{"Sistema", "Google"}
 )
 
-// Usuario tabla de usuarios de la plataforma
+// Usuario tabla de usuarios de la plataforma, el campo de Usuario se manejara el RFC para el contribuyente
 type Usuario struct {
 	gorm.Model
 	Usuario         string  `json:"usuario" gorm:"type:character varying(250);"`
@@ -184,8 +184,17 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 
 	key := "rfq74564bdb6fc123706eea85ec98431"
 
+	esMail := strings.Contains(email, "@")
+
 	usr := Usuario{}
-	r := Db.Where(Usuario{Email: email}).First(&usr)
+	var r *gorm.DB
+
+	if esMail {
+		r = Db.Where(Usuario{Email: email}).First(&usr)
+	} else {
+		r = Db.Where(Usuario{Usuario: email}).First(&usr)
+	}
+
 	if r.Error != nil {
 		return usr, errors.New("el usuario no existe en la plataforma")
 	} else {
