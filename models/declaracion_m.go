@@ -51,3 +51,14 @@ type Declaracion struct {
 func MigrarDeclaracion() {
 	Db.AutoMigrate(&Declaracion{})
 }
+
+func (d *Declaracion) CamposObligatorios() []string {
+	var campos []string
+	campos = append(campos, "PermisionariaID")
+	campos = append(campos, "EntidadID")
+	campos = append(campos, "Año")
+	campos = append(campos, "Mes")
+	campos = append(campos, "Tipo")
+	campos = append(campos, "Estatus")
+	return campos
+}

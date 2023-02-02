@@ -198,6 +198,15 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 	if r.Error != nil {
 		return usr, errors.New("el usuario no existe en la plataforma")
 	} else {
+		// Si es por RFC es un contribuyente valida que este dado de alta la permicionaria
+		if !esMail {
+			per := Permisionaria{}
+			r = Db.Where(Permisionaria{Rfc: email}).First(per)
+			if r.Error != nil {
+				return usr, errors.New("el RFC no existe en la plataforma")
+			}
+		}
+
 		pass, err := encrypt.Sdecrypt(usr.Password, key)
 		if err != nil {
 			return usr, err

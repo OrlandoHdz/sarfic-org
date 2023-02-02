@@ -83,7 +83,6 @@ func Sdecrypt(cipherText, key string) (plainText string, err error) {
 	nonceSize := gcm.NonceSize()
 	//
 	// process ciphertext
-	fmt.Println("cipherText:", cipherText)
 	ciphertextByte, _ := base64.StdEncoding.DecodeString(cipherText)
 	nonce, ciphertextByteClean := ciphertextByte[:nonceSize], ciphertextByte[nonceSize:]
 	plaintextByte, err := gcm.Open(
