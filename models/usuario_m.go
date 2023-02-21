@@ -202,7 +202,7 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 		if !esMail {
 			fmt.Println("Permicionaria a buscar:", email)
 			per := Permisionaria{}
-			r = Db.Where(Permisionaria{Rfc: email}).First(per)
+			r = Db.Where(Permisionaria{Rfc: email}).First(&per)
 			if r.Error != nil {
 				return usr, errors.New("el RFC no existe en la plataforma")
 			}
