@@ -199,7 +199,7 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 		return usr, errors.New("el usuario no existe en la plataforma")
 	} else {
 		// Si es por RFC es un contribuyente valida que este dado de alta la permicionaria
-		if !esMail {
+		if !esMail && usr.TipoUsuario == TipoContribuyente {
 			fmt.Println("Permicionaria a buscar:", email)
 			per := Permisionaria{}
 			r = Db.Where(Permisionaria{Rfc: email}).First(&per)
