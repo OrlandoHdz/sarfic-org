@@ -200,6 +200,7 @@ func ValidaPassword(email string, password string) (Usuario, error) {
 	} else {
 		// Si es por RFC es un contribuyente valida que este dado de alta la permicionaria
 		if !esMail {
+			fmt.Println("Permicionaria a buscar:", email)
 			per := Permisionaria{}
 			r = Db.Where(Permisionaria{Rfc: email}).First(per)
 			if r.Error != nil {
