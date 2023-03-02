@@ -2,6 +2,7 @@ package v1
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 )
 
@@ -21,4 +22,11 @@ func Respond(w http.ResponseWriter, statuscode int, data map[string]interface{})
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(statuscode)
 	json.NewEncoder(w).Encode(data)
+}
+
+//RespondPdf retorna un archivo pdf
+func RespondPdf(w http.ResponseWriter, statuscode int, f io.Reader) {
+	w.Header().Add("Content-type", "application/pdf")
+	w.WriteHeader(statuscode)
+	io.Copy(w, f)
 }
