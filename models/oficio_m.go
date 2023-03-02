@@ -21,7 +21,7 @@ func MigrarOficio() {
 	Db.AutoMigrate(&Oficio{})
 }
 
-func (c *Oficio) CamposObligatorios() []string {
+func (c *Oficio) CamposObligatoriosOficio() []string {
 	var campos []string
 	campos = append(campos, "CasinoNombre")
 	campos = append(campos, "Numero")
