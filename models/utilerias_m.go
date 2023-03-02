@@ -107,6 +107,8 @@ func (c *Crud) Update(query string, param string) *Response {
 	}
 	// obtiene el parametro
 	cparam := c.Context.Param(param)
+	fmt.Println("param:", param)
+	fmt.Println("cparam:", cparam)
 	// obtiene los datos del Body
 	err := c.Context.ShouldBind(&c.Values)
 	if err != nil {
@@ -122,6 +124,7 @@ func (c *Crud) Update(query string, param string) *Response {
 	val := reflect.ValueOf(c.Values).Elem()
 	for _, field := range c.ValidateFields {
 		n := fmt.Sprintf("%v", val.FieldByName(field).Interface())
+		fmt.Println("valor:", n)
 		if n == "" || n == "0" {
 			return &Response{
 				Success:    false,
