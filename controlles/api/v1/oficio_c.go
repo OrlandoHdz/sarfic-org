@@ -20,7 +20,7 @@ func CreateOficio(c *gin.Context) {
 func UpdateOficio(c *gin.Context) {
 	var cp models.Oficio
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
-	r := crud.Update("numero = ?", "rfc")
+	r := crud.Update("numero = ?", "numero")
 	msg := Message(r.Success, r.Message)
 	Respond(c.Writer, r.HttpStatus, msg)
 }
@@ -28,7 +28,7 @@ func UpdateOficio(c *gin.Context) {
 func SearchOficio(c *gin.Context) {
 	var cp models.Oficio
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
-	r := crud.Search("numero = ?", "rfc")
+	r := crud.Search("numero = ?", "numero")
 	msg := Message(r.Success, r.Message)
 	msg["payload"] = r.Payload
 	Respond(c.Writer, r.HttpStatus, msg)
@@ -46,7 +46,7 @@ func AllOficio(c *gin.Context) {
 func DeleteOficio(c *gin.Context) {
 	var cp models.Permisionaria
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
-	r := crud.Delete("numero = ?", "rfc")
+	r := crud.Delete("numero = ?", "numero")
 	msg := Message(r.Success, r.Message)
 	Respond(c.Writer, r.HttpStatus, msg)
 }
