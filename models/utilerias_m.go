@@ -384,4 +384,5 @@ func MigrarModelos() {
 	MigrarOperadora()
 	MigrarPermisionaria()
 	MigrarDeclaracion()
+	MigrarOficio()
 }
