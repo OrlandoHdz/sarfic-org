@@ -9,6 +9,48 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func CreateOficio(c *gin.Context) {
+	var cp models.Oficio
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Create()
+	msg := Message(r.Success, r.Message)
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
+func UpdateOficio(c *gin.Context) {
+	var cp models.Oficio
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Update("numero = ?", "rfc")
+	msg := Message(r.Success, r.Message)
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
+func SearchOficio(c *gin.Context) {
+	var cp models.Oficio
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Search("numero = ?", "rfc")
+	msg := Message(r.Success, r.Message)
+	msg["payload"] = r.Payload
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
+func AllOficio(c *gin.Context) {
+	var cp models.Permisionaria
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Get()
+	msg := Message(r.Success, r.Message)
+	msg["payload"] = r.Payload
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
+func DeleteOficio(c *gin.Context) {
+	var cp models.Permisionaria
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Delete("numero = ?", "rfc")
+	msg := Message(r.Success, r.Message)
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
 func RetornaOficio(c *gin.Context) {
 	// Valida el Token
 	aut := c.Request.Header["Authorization"]
