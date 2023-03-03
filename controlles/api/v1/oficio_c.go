@@ -84,6 +84,7 @@ func RetornaOficio(c *gin.Context) {
 	// archivo = "/Users/orlando/Downloads/oficios/" + archivo
 	f, err := os.Open(archivo)
 	if err != nil {
+		fmt.Println("Error al abrir el archivo:", archivo, ":", err.Error())
 		msg := Message(false, "Ocurrio un error al obtenr el archivo:"+fmt.Sprint(err))
 		Respond(c.Writer, http.StatusBadGateway, msg)
 		return
