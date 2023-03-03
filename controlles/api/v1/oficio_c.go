@@ -79,7 +79,7 @@ func RetornaOficio(c *gin.Context) {
 	}
 
 	//archivo := "/home/orlando/app/files/oficio90.pdf"
-	archivo := "/Users/orlando/Downloads/oficio90.pdf"
+	archivo := "/Users/orlando/Downloads/oficios/F90.pdf"
 	f, err := os.Open(archivo)
 	if err != nil {
 		msg := Message(false, "Ocurrio un error al obtenr el archivo:"+fmt.Sprint(err))
