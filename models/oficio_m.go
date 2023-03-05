@@ -9,11 +9,13 @@ import (
 // Oficio definicion de la tabla en la base de datos
 type Oficio struct {
 	gorm.Model
-	CasinoNombre string    `json:"casino_nombre" gorm:"type:character varying(250);"`
-	Numero       string    `json:"numero" gorm:"type:character varying(250);"`
-	FechaLLegada time.Time `json:"fecha_llegada"`
-	FechaCierre  time.Time `json:"fecha_cierre"`
-	Archivo      string    `json:"archivo" gorm:"type:character varying(250);"`
+	Contribuyente string    `json:"contribuyente" gorm:"type:character varying(250);"`
+	Rfc           string    `json:"rfc" gorm:"type:character varying(50);"`
+	CasinoNombre  string    `json:"casino_nombre" gorm:"type:character varying(250);"`
+	Numero        string    `json:"numero" gorm:"type:character varying(250);index;unique"`
+	FechaLLegada  time.Time `json:"fecha_llegada"`
+	FechaCierre   time.Time `json:"fecha_cierre"`
+	Archivo       string    `json:"archivo" gorm:"type:character varying(250);"`
 }
 
 // MigrarOficio migrar tabla
