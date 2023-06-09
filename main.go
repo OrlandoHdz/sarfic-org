@@ -18,6 +18,6 @@ func main() {
 	models.ConectarDb()
 
 	// Migrar tablas
-	models.MigrarUsuarios()
+	models.MigrarOficio()
 
 }

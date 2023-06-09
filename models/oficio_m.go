@@ -16,6 +16,7 @@ type Oficio struct {
 	FechaLLegada  time.Time `json:"fecha_llegada"`
 	FechaCierre   time.Time `json:"fecha_cierre"`
 	Archivo       string    `json:"archivo" gorm:"type:character varying(250);"`
+	Tipo          uint      `json:"tipo"`
 }
 
 // MigrarOficio migrar tabla
@@ -30,5 +31,6 @@ func (c *Oficio) CamposObligatoriosOficio() []string {
 	campos = append(campos, "FechaLLegada")
 	campos = append(campos, "FechaCierre")
 	campos = append(campos, "Archivo")
+	campos = append(campos, "Tipo")
 	return campos
 }

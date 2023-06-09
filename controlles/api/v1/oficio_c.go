@@ -39,6 +39,17 @@ func AllOficio(c *gin.Context) {
 
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosOficio(), c)
 	r := crud.Get()
+	//r := crud.GetQry("tipo = ?", "tipo")
+	msg := Message(r.Success, r.Message)
+	msg["payload"] = r.Payload
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
+func AllOficioTipo(c *gin.Context) {
+	var cp models.Oficio
+
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosOficio(), c)
+	r := crud.GetQry("tipo = ?", "tipo")
 	msg := Message(r.Success, r.Message)
 	msg["payload"] = r.Payload
 	Respond(c.Writer, r.HttpStatus, msg)
