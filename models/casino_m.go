@@ -18,6 +18,7 @@ type Casino struct {
 	SistemaSecunadrio  string    `json:"sistema_Secundario" gorm:"type:character varying(250);"`
 	NumeroMaquinas     int       `json:"numero_maquinas"`
 	NumeroMesas        int       `json:"numero_mesas"`
+	SportsBook         bool      `json:"sportsbook"`
 	ContactoNombre     string    `json:"contacto_nombre" gorm:"type:character varying(250);"`
 	ContactoPuesto     string    `json:"contacto_puesto" gorm:"type:character varying(250);"`
 	ContactoEmail      string    `json:"contacto_email" gorm:"type:character varying(250);"`
@@ -31,4 +32,18 @@ type Casino struct {
 // MigrarCasino migra la tabla
 func MigrarCasino() {
 	Db.AutoMigrate(&Casino{})
+}
+
+func (c *Casino) CamposObligatorios() []string {
+	var campos []string
+	campos = append(campos, "OperadoraID")
+	campos = append(campos, "NombreComercial")
+	campos = append(campos, "Direccion")
+	campos = append(campos, "Colonia")
+	campos = append(campos, "Municipio")
+	campos = append(campos, "NumeroMaquinas")
+	campos = append(campos, "NumeroMesas")
+	campos = append(campos, "SportsBook")
+
+	return campos
 }
