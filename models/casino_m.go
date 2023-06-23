@@ -1,6 +1,11 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"errors"
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 // Casino definicion de tabla en la base de datos
 type Casino struct {
@@ -46,4 +51,61 @@ func (c *Casino) CamposObligatorios() []string {
 	campos = append(campos, "SportsBook")
 
 	return campos
+}
+
+type ResultadoQry struct {
+	EntidadId           uint
+	Entidad             string
+	PermisionariaId     uint
+	PermisionariaRfc    string
+	PermisionariaNombre string
+	NombreComercial     string
+	Direccion           string
+	Colonia             string
+	CodigoPostal        uint
+	SistemaPrincipal    string
+	NumeroMaquinas      uint
+	NumeroMesas         uint
+	ContactoNombre      string
+	ContactoEmail       string
+	ContactoTelefono    string
+	ContactoMivil       string
+}
+
+func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
+	datosQry := []ResultadoQry{}
+
+	r := Db.Table("casinos").
+		Select(`
+			entidads.id entidad_id,
+			entidads.nombre entidad,
+			operadoras.permisionaria_id, 
+			permisionaria.rfc permisionaria_rfc, 
+			permisionaria.descripcion permisionaria_nombre, 
+			casinos.nombre_comercial,
+			casinos.direccion,
+			casinos.colonia,
+			casinos.municipio,
+			casinos.codigo_postal,
+			casinos.sistema_principal,
+			casinos.numero_maquinas,
+			casinos.numero_mesas,
+			casinos.contacto_nombre,
+			casinos.contacto_email,
+			casinos.contacto_telefono,
+			casinos.contacto_movil			
+		`).Joins("lef join entidads on entidads.id = casinos.entidad_id").
+		Joins("left join  operadoras.id = casinos.operadora_id").
+		Joins("left join permisionaria.id = operadoras.permisionaria_id").
+		Where("casinos.entidad_id = ?", entidad_id).
+		Order("permisionaria.rfc, casinos.nombre_comercial").
+		Find(&datosQry)
+
+	if r.Error != nil {
+		fmt.Println(r.Error)
+		return nil, errors.New("Error al los obtener casinos")
+	}
+
+	return datosQry, nil
+
 }
