@@ -108,7 +108,7 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 			entidad,
 			permisionaria_id,
 			permisionaria_rfc,
-			permisionaria,
+			permisionaria_nombre,
 			nombre_comercial,
 			direccion,
 			colonia,
