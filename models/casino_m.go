@@ -120,7 +120,7 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 			contacto_email,
 			contacto_telefono,
 			contacto_movil
-		from vw_casinos
+		from org.vw_casinos
 		where entidad_id = ?
 	`, entidad_id).Find(&datosQry)
 
