@@ -75,31 +75,54 @@ type ResultadoQry struct {
 func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 	datosQry := []ResultadoQry{}
 
-	r := Db.Table("casinos").
-		Select(`
-			entidads.id entidad_id,
-			entidads.nombre entidad,
-			operadoras.permisionaria_id, 
-			permisionaria.rfc permisionaria_rfc, 
-			permisionaria.descripcion permisionaria_nombre, 
-			casinos.nombre_comercial,
-			casinos.direccion,
-			casinos.colonia,
-			casinos.municipio,
-			casinos.codigo_postal,
-			casinos.sistema_principal,
-			casinos.numero_maquinas,
-			casinos.numero_mesas,
-			casinos.contacto_nombre,
-			casinos.contacto_email,
-			casinos.contacto_telefono,
-			casinos.contacto_movil			
-		`).Joins("lef join entidads on entidads.id = casinos.entidad_id").
-		Joins("left join  operadoras.id = casinos.operadora_id").
-		Joins("left join permisionaria.id = operadoras.permisionaria_id").
-		Where("casinos.entidad_id = ?", entidad_id).
-		Order("permisionaria.rfc, casinos.nombre_comercial").
-		Find(&datosQry)
+	// r := Db.Table("casinos").
+	// 	Select(`
+	// 		entidads.id entidad_id,
+	// 		entidads.nombre entidad,
+	// 		operadoras.permisionaria_id,
+	// 		permisionaria.rfc permisionaria_rfc,
+	// 		permisionaria.descripcion permisionaria_nombre,
+	// 		casinos.nombre_comercial,
+	// 		casinos.direccion,
+	// 		casinos.colonia,
+	// 		casinos.municipio,
+	// 		casinos.codigo_postal,
+	// 		casinos.sistema_principal,
+	// 		casinos.numero_maquinas,
+	// 		casinos.numero_mesas,
+	// 		casinos.contacto_nombre,
+	// 		casinos.contacto_email,
+	// 		casinos.contacto_telefono,
+	// 		casinos.contacto_movil
+	// 	`).Joins("lef join entidads on entidads.id = casinos.entidad_id").
+	// 	Joins("left join  operadoras.id = casinos.operadora_id").
+	// 	Joins("left join permisionaria.id = operadoras.permisionaria_id").
+	// 	Where("casinos.entidad_id = ?", entidad_id).
+	// 	Order("permisionaria.rfc, casinos.nombre_comercial").
+	// 	Find(&datosQry)
+
+	r := Db.Raw(`
+		select 
+			entidad_id,
+			entidad,
+			permisionaria_id,
+			permisionaria_rfc,
+			permisionaria,
+			nombre_comercial,
+			direccion,
+			colonia,
+			municipio,
+			codigo_postal,
+			sistema_principal,
+			numero_maquinas,
+			numero_mesas,
+			contacto_nombre,
+			contacto_email,
+			contacto_telefono,
+			contacto_movil
+		from vw_casinos
+		where entidad_id = ?
+	`, entidad_id).Find(&datosQry)
 
 	if r.Error != nil {
 		fmt.Println(r.Error)
