@@ -66,6 +66,7 @@ type ResultadoQry struct {
 	SistemaPrincipal    string
 	NumeroMaquinas      uint
 	NumeroMesas         uint
+	SportsBook          bool
 	ContactoNombre      string
 	ContactoEmail       string
 	ContactoTelefono    string
@@ -116,6 +117,7 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 			sistema_principal,
 			numero_maquinas,
 			numero_mesas,
+			sports_book,
 			contacto_nombre,
 			contacto_email,
 			contacto_telefono,
