@@ -62,6 +62,7 @@ type ResultadoQry struct {
 	NombreComercial     string
 	Direccion           string
 	Colonia             string
+	Municipio           string
 	CodigoPostal        uint
 	SistemaPrincipal    string
 	NumeroMaquinas      uint
