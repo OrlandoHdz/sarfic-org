@@ -402,6 +402,8 @@ func ValidaToken(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("Token:", mBody.Token)
+
 	// valida el email y password
 	usr, err := models.ValidaToken(mBody.Token)
 
