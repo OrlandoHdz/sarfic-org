@@ -402,8 +402,6 @@ func ValidaToken(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Token:", mBody.Token)
-
 	// valida el email y password
 	usr, err := models.ValidaToken(mBody.Token)
 
@@ -421,13 +419,15 @@ func ValidaToken(c *gin.Context) {
 		// 	return
 		// }
 
+		ln := len(mBody.Token)
+		mtoken := mBody.Token[7:ln]
 		msg := Message(true, "Token valido")
 		msg["payload"] = map[string]interface{}{
 			"usuario":          usr.Usuario,
 			"email":            usr.Email,
 			"name":             usr.Nombre,
 			"picture":          "",
-			"token":            mBody.Token,
+			"token":            mtoken,
 			"tipo":             usr.TipoUsuario,
 			"descripcion_tipo": models.DescripcionTipoUsuario(int(usr.TipoUsuario)),
 			"accesos":          models.AccesosUsuario(int(usr.TipoUsuario)),
