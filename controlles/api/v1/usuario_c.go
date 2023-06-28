@@ -378,6 +378,62 @@ func ValidaUsuarioPassword(c *gin.Context) {
 	}
 }
 
+type jsonToken struct {
+	Token string `json:"token"`
+}
+
+// ValidaToken valida el usuario con su correo y contraseña
+func ValidaToken(c *gin.Context) {
+	mBody := jsonToken{}
+
+	err := c.ShouldBind(&mBody)
+
+	// valida que no se tenga error al obtener el body
+	if err != nil {
+		msg := Message(false, "Ocurrio un error al obtenr el body")
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
+	// valida que no se manden datos vacios
+	if mBody.Token == "" {
+		msg := Message(false, "Ocurrio un error al obtenr el body, falta información ")
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
+	// valida el email y password
+	usr, err := models.ValidaToken(mBody.Token)
+
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	} else {
+		// // actualiza el token en la base de datos
+		// token, _ := encrypt.GeneraJWT(usr.Nombre)
+		// err = models.ActualizaTokenUsuario(usr.ID, token)
+		// if err != nil {
+		// 	msg := Message(false, "Ocurrio un error al guardar el token")
+		// 	Respond(c.Writer, http.StatusUnauthorized, msg)
+		// 	return
+		// }
+
+		msg := Message(true, "Token valido")
+		msg["payload"] = map[string]interface{}{
+			"usuario":          usr.Usuario,
+			"email":            usr.Email,
+			"name":             usr.Nombre,
+			"picture":          "",
+			"token":            mBody.Token,
+			"tipo":             usr.TipoUsuario,
+			"descripcion_tipo": models.DescripcionTipoUsuario(int(usr.TipoUsuario)),
+			"accesos":          models.AccesosUsuario(int(usr.TipoUsuario)),
+		}
+		Respond(c.Writer, http.StatusOK, msg)
+	}
+}
+
 func validaAuthorization(aut []string) (string, error) {
 
 	var token string
