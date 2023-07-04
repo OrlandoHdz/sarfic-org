@@ -77,32 +77,6 @@ type ResultadoQry struct {
 func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 	datosQry := []ResultadoQry{}
 
-	// r := Db.Table("casinos").
-	// 	Select(`
-	// 		entidads.id entidad_id,
-	// 		entidads.nombre entidad,
-	// 		operadoras.permisionaria_id,
-	// 		permisionaria.rfc permisionaria_rfc,
-	// 		permisionaria.descripcion permisionaria_nombre,
-	// 		casinos.nombre_comercial,
-	// 		casinos.direccion,
-	// 		casinos.colonia,
-	// 		casinos.municipio,
-	// 		casinos.codigo_postal,
-	// 		casinos.sistema_principal,
-	// 		casinos.numero_maquinas,
-	// 		casinos.numero_mesas,
-	// 		casinos.contacto_nombre,
-	// 		casinos.contacto_email,
-	// 		casinos.contacto_telefono,
-	// 		casinos.contacto_movil
-	// 	`).Joins("lef join entidads on entidads.id = casinos.entidad_id").
-	// 	Joins("left join  operadoras.id = casinos.operadora_id").
-	// 	Joins("left join permisionaria.id = operadoras.permisionaria_id").
-	// 	Where("casinos.entidad_id = ?", entidad_id).
-	// 	Order("permisionaria.rfc, casinos.nombre_comercial").
-	// 	Find(&datosQry)
-
 	r := Db.Raw(`
 		select 
 			entidad_id,
@@ -130,6 +104,29 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 	if r.Error != nil {
 		fmt.Println(r.Error)
 		return nil, errors.New("Error al los obtener casinos")
+	}
+
+	return datosQry, nil
+
+}
+
+func ObtenerCasinosCiudad(entidad_id int) ([]ResultadoQry, error) {
+	datosQry := []ResultadoQry{}
+
+	r := Db.Raw(`
+		select 
+			municipio, count(*) as casinos, 
+			sum(numero_maquinas) as mauinas, 
+			sum(numero_mesas) as mesas,
+			count(case when sports_book = true then 1 else null end) as sportsbook		
+		from org.vw_casinos
+		where entidad_id = ?
+		group by municipio
+	`, entidad_id).Find(&datosQry)
+
+	if r.Error != nil {
+		fmt.Println(r.Error)
+		return nil, errors.New("Error al los obtener casinos ciudad")
 	}
 
 	return datosQry, nil

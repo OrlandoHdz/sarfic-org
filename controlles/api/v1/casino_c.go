@@ -80,3 +80,34 @@ func TodosLosCasinos(c *gin.Context) {
 	}
 
 }
+
+func TodosLosCasinosCiudad(c *gin.Context) {
+	// Valida el Token
+	aut := c.Request.Header["Authorization"]
+	token, err := validaAuthorization(aut)
+	if err != nil {
+		msg := Message(false, err.Error())
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
+	usuario, err := models.ValidaToken(token)
+
+	if err != nil {
+		msg := Message(false, "Ocurrio un error al obtenr el token:"+fmt.Sprint(err))
+		Respond(c.Writer, http.StatusUnauthorized, msg)
+		return
+	}
+
+	casinosCiudad, err := models.ObtenerCasinosCiudad(int(usuario.EntidadID))
+
+	if err != nil {
+		msg := Message(false, "Ocurrio un error al obtenr los casinos:"+fmt.Sprint(err))
+		Respond(c.Writer, http.StatusBadRequest, msg)
+	} else {
+		msg := Message(true, "Casinos ciudad obtenidos con exito")
+		msg["payload"] = casinosCiudad
+		Respond(c.Writer, http.StatusOK, msg)
+	}
+
+}
