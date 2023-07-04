@@ -110,13 +110,21 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 
 }
 
-func ObtenerCasinosCiudad(entidad_id int) ([]ResultadoQry, error) {
-	datosQry := []ResultadoQry{}
+type ResultadoCiudadQry struct {
+	Municipio  string
+	Casinos    uint
+	Maquinas   uint
+	Mesas      uint
+	Sportsbook uint
+}
+
+func ObtenerCasinosCiudad(entidad_id int) ([]ResultadoCiudadQry, error) {
+	datosQry := []ResultadoCiudadQry{}
 
 	r := Db.Raw(`
 		select 
 			municipio, count(*) as casinos, 
-			sum(numero_maquinas) as mauinas, 
+			sum(numero_maquinas) as maquinas, 
 			sum(numero_mesas) as mesas,
 			count(case when sports_book = true then 1 else null end) as sportsbook		
 		from org.vw_casinos
