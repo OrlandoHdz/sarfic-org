@@ -54,6 +54,7 @@ func (c *Casino) CamposObligatorios() []string {
 }
 
 type ResultadoQry struct {
+	Id                  uint
 	EntidadId           uint
 	Entidad             string
 	PermisionariaId     uint
@@ -79,6 +80,7 @@ func ObtenerCasinos(entidad_id int) ([]ResultadoQry, error) {
 
 	r := Db.Raw(`
 		select 
+			id,
 			entidad_id,
 			entidad,
 			permisionaria_id,
