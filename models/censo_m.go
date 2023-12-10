@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -34,25 +35,26 @@ func (c *Censo) CamposObligatoriosCenso() []string {
 }
 
 type ResultadoCensoQry struct {
-	Id                     uint   `json:"id"`
-	CasinoId               uint   `json:"casino_id"`
-	SistemaPrincipal       string `json:"sistema_principal"`
-	NumeroMaquinas         uint   `json:"numero_maquinas"`
-	NumeroMesas            uint   `json:"numero_mesas"`
-	SportsBook             bool   `json:"sports_book"`
-	PersonaAtendio         string `json:"persona_atendio"`
-	UpdateAt               string `json:"update_at"`
-	NombreComercial        string `json:"nombre_comercial"`
-	PermisionariaRfc       string `json:"permisionaria_rfc"`
-	PermisionariaNombre    string `json:"permisionaria_nombre"`
-	Direccion              string `json:"direccion"`
-	Colonia                string `json:"colonia"`
-	Municipio              string `json:"municipio"`
-	CodigoPostal           uint   `json:"codigo_postal"`
-	SistemaPrincipalCasino string `json:"sistema_principal_casino"`
-	NumeroMaquinasCasino   uint   `json:"numero_maquinas_casino"`
-	NumeroMesasCasino      uint   `json:"numero_mesas_casino"`
-	SportsBookCasino       bool   `json:"sports_book_casino"`
+	Id                     uint      `json:"id"`
+	CasinoId               uint      `json:"casino_id"`
+	SistemaPrincipal       string    `json:"sistema_principal"`
+	NumeroMaquinas         uint      `json:"numero_maquinas"`
+	NumeroMesas            uint      `json:"numero_mesas"`
+	SportsBook             bool      `json:"sports_book"`
+	PersonaAtendio         string    `json:"persona_atendio"`
+	UpdateAt               time.Time `json:"update_at"`
+	UpdateAtStr            string    `json:"update_at_str"`
+	NombreComercial        string    `json:"nombre_comercial"`
+	PermisionariaRfc       string    `json:"permisionaria_rfc"`
+	PermisionariaNombre    string    `json:"permisionaria_nombre"`
+	Direccion              string    `json:"direccion"`
+	Colonia                string    `json:"colonia"`
+	Municipio              string    `json:"municipio"`
+	CodigoPostal           uint      `json:"codigo_postal"`
+	SistemaPrincipalCasino string    `json:"sistema_principal_casino"`
+	NumeroMaquinasCasino   uint      `json:"numero_maquinas_casino"`
+	NumeroMesasCasino      uint      `json:"numero_mesas_casino"`
+	SportsBookCasino       bool      `json:"sports_book_casino"`
 }
 
 func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
@@ -66,7 +68,8 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 			ce.numero_mesas,
 			ce.sports_book,
 			ce.persona_atendio,
-			to_char(ce.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at,
+			ce.updated_at,
+			to_char(ce.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at_str,
 			ca.nombre_comercial,
 			ca.permisionaria_rfc,
 			ca.permisionaria_nombre,
