@@ -16,7 +16,7 @@ func CreateCenso(c *gin.Context) {
 func UpdateCenso(c *gin.Context) {
 	var cp models.Censo
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosCenso(), c)
-	r := crud.Update("numero = ?", "numero")
+	r := crud.Update("id = ?", "id")
 	msg := Message(r.Success, r.Message)
 	Respond(c.Writer, r.HttpStatus, msg)
 }
@@ -24,7 +24,7 @@ func UpdateCenso(c *gin.Context) {
 func SearchCenso(c *gin.Context) {
 	var cp models.Censo
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosCenso(), c)
-	r := crud.Search("numero = ?", "numero")
+	r := crud.Search("id = ?", "id")
 	msg := Message(r.Success, r.Message)
 	msg["payload"] = r.Payload
 	Respond(c.Writer, r.HttpStatus, msg)
@@ -35,7 +35,6 @@ func AllCenso(c *gin.Context) {
 
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosCenso(), c)
 	r := crud.Get()
-	//r := crud.GetQry("tipo = ?", "tipo")
 	msg := Message(r.Success, r.Message)
 	msg["payload"] = r.Payload
 	Respond(c.Writer, r.HttpStatus, msg)
@@ -45,7 +44,7 @@ func DeleteCenso(c *gin.Context) {
 	var cp models.Censo
 
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatoriosCenso(), c)
-	r := crud.Delete("numero = ?", "numero")
+	r := crud.Delete("id = ?", "id")
 	msg := Message(r.Success, r.Message)
 	Respond(c.Writer, r.HttpStatus, msg)
 }
