@@ -67,8 +67,7 @@ type ResultadoCensoQry struct {
 	NumeroMesas            uint
 	SportsBook             bool
 	PersonaAtendio         string
-	UpdateAt               time.Time
-	UpdateAtStr            string
+	FechaAct               time.Time
 	NombreComercial        string
 	PermisionariaRfc       string
 	PermisionariaNombre    string
@@ -80,7 +79,6 @@ type ResultadoCensoQry struct {
 	NumeroMaquinasCasino   uint
 	NumeroMesasCasino      uint
 	SportsBookCasino       bool
-	FechaAct               time.Time
 }
 
 func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
@@ -96,8 +94,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		censos.numero_mesas,
 		censos.sports_book,
 		censos.persona_atendio,
-		censos.updated_at,
-		to_char(censos.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at_str,
+		censos.fecha_act
 		vw_casinos.nombre_comercial,
 		vw_casinos.permisionaria_rfc,
 		vw_casinos.permisionaria_nombre,
@@ -109,7 +106,6 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		vw_casinos.numero_maquinas numero_maquinas_casino,
 		vw_casinos.numero_mesas numero_mesas_casino,
 		vw_casinos.sports_book sports_book_casino,
-		censos.fecha_act
 	`).Joins("left join org.vw_casinos on org.vw_casinos.id = org.censos.casino_id").
 		Where("org.vw_casinos.entidad_id = ? ", entidad_id).
 		Find(&datosQry)
