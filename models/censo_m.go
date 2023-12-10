@@ -81,39 +81,67 @@ type ResultadoCensoQry struct {
 }
 
 func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
-	datosQry := []ResultadoCensoQry{}
-	r := Db.Raw(`
-		select 
-			ce.id,
-			ce.casino_id,
-			ce.sistema_principal,
-			ce.numero_maquinas,
-			ce.numero_mesas,
-			ce.sports_book,
-			ce.persona_atendio,
-			ce.updated_at,
-			to_char(ce.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at_str,
-			ca.nombre_comercial,
-			ca.permisionaria_rfc,
-			ca.permisionaria_nombre,
-			ca.direccion,
-			ca.colonia,
-			ca.municipio,
-			ca.codigo_postal,
-			ca.sistema_principal sistema_principal_casino,
-			ca.numero_maquinas numero_maquinas_casino,
-			ca.numero_mesas numero_mesas_casino,
-			ca.sports_book sports_book_casino
-		
-		from 
-			org.censos ce,
-			org.vw_casinos ca
-		where 
-			entidad_id = ?
-			and ce.deleted_at is null
-			and ce.casino_id = ca.id 
 
-	`, entidad_id).Find(&datosQry)
+	datosQry := []ResultadoCensoQry{}
+
+	// r := Db.Raw(`
+	// 	select
+	// 		ce.id,
+	// 		ce.casino_id,
+	// 		ce.sistema_principal,
+	// 		ce.numero_maquinas,
+	// 		ce.numero_mesas,
+	// 		ce.sports_book,
+	// 		ce.persona_atendio,
+	// 		ce.updated_at,
+	// 		to_char(ce.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at_str,
+	// 		ca.nombre_comercial,
+	// 		ca.permisionaria_rfc,
+	// 		ca.permisionaria_nombre,
+	// 		ca.direccion,
+	// 		ca.colonia,
+	// 		ca.municipio,
+	// 		ca.codigo_postal,
+	// 		ca.sistema_principal sistema_principal_casino,
+	// 		ca.numero_maquinas numero_maquinas_casino,
+	// 		ca.numero_mesas numero_mesas_casino,
+	// 		ca.sports_book sports_book_casino
+
+	// 	from
+	// 		org.censos ce,
+	// 		org.vw_casinos ca
+	// 	where
+	// 		entidad_id = ?
+	// 		and ce.deleted_at is null
+	// 		and ce.casino_id = ca.id
+
+	// `, entidad_id).Find(&datosQry)
+
+	r := Db.Table("org.censos").
+		Select(`
+		censos.id,
+		censo.casino_id,
+		censo.sistema_principal,
+		censo.numero_maquinas,
+		censo.numero_mesas,
+		censo.sports_book,
+		censo.persona_atendio,
+		censo.updated_at,
+		to_char(censo.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at_str,
+		vw_casinos.nombre_comercial,
+		vw_casinos.permisionaria_rfc,
+		vw_casinos.permisionaria_nombre,
+		vw_casinos.direccion,
+		vw_casinos.colonia,
+		vw_casinos.municipio,
+		vw_casinos.codigo_postal,
+		vw_casinos.sistema_principal sistema_principal_casino,
+		vw_casinos.numero_maquinas numero_maquinas_casino,
+		vw_casinos.numero_mesas numero_mesas_casino,
+		vw_casinos.sports_book sports_book_casino
+	`).Joins("left join org.vw_casinos on org.vw_casinos.id = org.censo.casino_id").
+		Where("org.vw_casinos.entidad_id = ? ", entidad_id).
+		Find(&datosQry)
 
 	if r.Error != nil {
 		fmt.Println(r.Error)
