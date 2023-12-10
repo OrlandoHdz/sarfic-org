@@ -66,7 +66,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 			ce.numero_mesas,
 			ce.sports_book,
 			ce.persona_atendio,
-			ce.updated_at,
+			to_char(ce.updated_at,'YYYY/MM/DD HH:MM:SS') updated_at,
 			ca.nombre_comercial,
 			ca.permisionaria_rfc,
 			ca.permisionaria_nombre,
