@@ -139,7 +139,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		vw_casinos.numero_maquinas numero_maquinas_casino,
 		vw_casinos.numero_mesas numero_mesas_casino,
 		vw_casinos.sports_book sports_book_casino
-	`).Joins("left join org.vw_casinos on org.vw_casinos.id = org.censo.casino_id").
+	`).Joins("left join org.vw_casinos on org.vw_casinos.id = org.censos.casino_id").
 		Where("org.vw_casinos.entidad_id = ? ", entidad_id).
 		Find(&datosQry)
 
