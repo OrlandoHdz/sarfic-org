@@ -67,7 +67,7 @@ type ResultadoCensoQry struct {
 	NumeroMesas            uint
 	SportsBook             bool
 	PersonaAtendio         string
-	FechaAct               string
+	FechaAct               time.Time
 	NombreComercial        string
 	PermisionariaRfc       string
 	PermisionariaNombre    string
@@ -94,7 +94,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		censos.numero_mesas,
 		censos.sports_book,
 		censos.persona_atendio,
-		to_char(censos.fecha_act, 'YYYY/MM/DD HH:MM:SS') fecha_act,
+		censos.fecha_act,
 		vw_casinos.nombre_comercial,
 		vw_casinos.permisionaria_rfc,
 		vw_casinos.permisionaria_nombre,
