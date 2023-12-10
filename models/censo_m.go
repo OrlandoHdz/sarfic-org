@@ -20,7 +20,7 @@ type Censo struct {
 	SportsBook        bool      `json:"sportsbook"`
 	PersonaAtendio    string    `json:"persona_atendio" gorm:"type:character varying(250);"`
 	Fecha             time.Time `gorm:"type:datetime;"`
-	FechaAct          time.Time
+	FechaAct          time.Time `json:"fecha_act"`
 }
 
 // MigrarCenso migrar la tabla
