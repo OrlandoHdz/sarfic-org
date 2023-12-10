@@ -94,7 +94,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		censos.numero_mesas,
 		censos.sports_book,
 		censos.persona_atendio,
-		censos.fecha_act
+		censos.fecha_act,
 		vw_casinos.nombre_comercial,
 		vw_casinos.permisionaria_rfc,
 		vw_casinos.permisionaria_nombre,
@@ -105,7 +105,7 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 		vw_casinos.sistema_principal sistema_principal_casino,
 		vw_casinos.numero_maquinas numero_maquinas_casino,
 		vw_casinos.numero_mesas numero_mesas_casino,
-		vw_casinos.sports_book sports_book_casino,
+		vw_casinos.sports_book sports_book_casino
 	`).Joins("left join org.vw_casinos on org.vw_casinos.id = org.censos.casino_id").
 		Where("org.vw_casinos.entidad_id = ? ", entidad_id).
 		Find(&datosQry)
