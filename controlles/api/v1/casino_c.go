@@ -33,6 +33,15 @@ func SearchCasino(c *gin.Context) {
 	Respond(c.Writer, r.HttpStatus, msg)
 }
 
+func SearchCasinoId(c *gin.Context) {
+	var cp models.Casino
+	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
+	r := crud.Search("id = ?", "id")
+	msg := Message(r.Success, r.Message)
+	msg["payload"] = r.Payload
+	Respond(c.Writer, r.HttpStatus, msg)
+}
+
 func AllCasino(c *gin.Context) {
 	var cp models.Casino
 	crud := models.NewCrud(&cp, &cp, cp.CamposObligatorios(), c)
