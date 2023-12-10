@@ -67,7 +67,7 @@ type ResultadoCensoQry struct {
 	NumeroMesas            uint
 	SportsBook             bool
 	PersonaAtendio         string
-	FechaAct               time.Time
+	FechaAct               string
 	NombreComercial        string
 	PermisionariaRfc       string
 	PermisionariaNombre    string
