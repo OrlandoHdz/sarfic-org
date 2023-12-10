@@ -35,21 +35,25 @@ func (c *Censo) CamposObligatoriosCenso() []string {
 }
 
 type ResultadoCensoQry struct {
-	Id                  uint
-	CasinoId            uint
-	SistemaPrincipal    string
-	NumeroMaquinas      uint
-	NumeroMesas         uint
-	SportsBook          bool
-	PersonaAtendio      string
-	UpdateAt            time.Time
-	NombreComercial     string
-	PermisionariaRfc    string
-	PermisionariaNombre string
-	Direccion           string
-	Colonia             string
-	Municipio           string
-	CodigoPostal        uint
+	Id                     uint      `json:"id"`
+	CasinoId               uint      `json:"casino_id"`
+	SistemaPrincipal       string    `json:"sistema_principal"`
+	NumeroMaquinas         uint      `json:"numero_maquinas"`
+	NumeroMesas            uint      `json:"numero_mesas"`
+	SportsBook             bool      `json:"sports_book"`
+	PersonaAtendio         string    `json:"persona_atendio"`
+	UpdateAt               time.Time `json:"update_at"`
+	NombreComercial        string    `json:"nombre_comercial"`
+	PermisionariaRfc       string    `json:"permisionaria_rfc"`
+	PermisionariaNombre    string    `json:"permisionaria_nombre"`
+	Direccion              string    `json:"direccion"`
+	Colonia                string    `json:"colonia"`
+	Municipio              string    `json:"municipio"`
+	CodigoPostal           uint      `json:"codigo_postal"`
+	SistemaPrincipalCasino string    `json:"sistema_principal_casino"`
+	NumeroMaquinasCasino   uint      `json:"numero_maquinas_casino"`
+	NumeroMesasCasino      uint      `json:"numero_mesas_casino"`
+	SportsBookCasino       bool      `json:"sports_book_casino"`
 }
 
 func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
@@ -70,7 +74,12 @@ func ObtenerCenso(entidad_id int) ([]ResultadoCensoQry, error) {
 			ca.direccion,
 			ca.colonia,
 			ca.municipio,
-			ca.codigo_postal			
+			ca.codigo_postal,
+			ca.sistema_principal sistema_principal_casino,
+			ca.numero_maquinas numero_maquinas_casino,
+			ca.numero_mesas numero_mesas_casino,
+			ca.sports_book sports_book_casino
+		
 		from 
 			org.censos ce,
 			org.vw_casinos ca
